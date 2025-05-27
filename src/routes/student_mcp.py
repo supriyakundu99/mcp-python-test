@@ -12,13 +12,36 @@ student_mcp = FastMCP("Student Management System")
 def get_service(db: Session = Depends(get_db)) -> StudentService:
     return StudentService(db)
 
+def serialize_student(student):
+    if not student:
+        return None
+    return {
+        "id": student.id,
+        "name": student.name,
+        "roll_number": student.roll_number,
+        "department": student.department,
+        "class_year": student.class_year,
+        "email": student.email
+    }
+
+def serialize_marks(marks):
+    if not marks:
+        return None
+    return {
+        "id": marks.id,
+        "student_id": marks.student_id,
+        "subject": marks.subject,
+        "marks": marks.marks,
+        "semester": marks.semester
+    }
+
 @student_mcp.tool()
 def get_all_students() -> List[Dict]:
     """Get all student records"""
     db = next(get_db())
     service = StudentService(db)
     students = service.get_all_students()
-    return [student.__dict__ for student in students]
+    return [serialize_student(student) for student in students]
 
 @student_mcp.tool()
 def get_student_statistics() -> Dict:
@@ -52,7 +75,8 @@ def get_student(id: int) -> Dict:
     """Get student details by ID"""
     db = next(get_db())
     service = StudentService(db)
-    return service.get_student(id)
+    student = service.get_student(id)
+    return serialize_student(student)
 
 @student_mcp.tool()
 def update_student(id: int, data: Dict[str, Any]) -> Dict:
@@ -99,7 +123,8 @@ def search_students_by_name(name: str) -> List[Dict]:
     """Search students by name"""
     db = next(get_db())
     service = StudentService(db)
-    return service.search_students_by_name(name)
+    students = service.search_students_by_name(name)
+    return [serialize_student(student) for student in students]
 
 @student_mcp.tool()
 def search_students_by_department(department: str) -> List[Dict]:
@@ -130,7 +155,8 @@ def get_student_marks(student_id: int) -> List[Dict]:
     """Get marks for a specific student"""
     db = next(get_db())
     service = StudentService(db)
-    return service.get_student_marks(student_id)
+    marks = service.get_student_marks(student_id)
+    return [serialize_marks(mark) for mark in marks]
 
 @student_mcp.tool()
 def get_students_above_marks(marks: float) -> List[Dict]:
