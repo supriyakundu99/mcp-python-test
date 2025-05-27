@@ -131,14 +131,16 @@ def search_students_by_department(department: str) -> List[Dict]:
     """Search students by department"""
     db = next(get_db())
     service = StudentService(db)
-    return service.search_students_by_department(department)
+    students = service.search_students_by_department(department)
+    return [serialize_student(student) for student in students]
 
 @student_mcp.tool()
 def search_students_by_class(class_year: int) -> List[Dict]:
     """Search students by class year"""
     db = next(get_db())
     service = StudentService(db)
-    return service.search_students_by_class(class_year)
+    students = service.search_students_by_class(class_year)
+    return [serialize_student(student) for student in students]
 
 @student_mcp.tool()
 def search_students_by_marks_range(
@@ -148,7 +150,8 @@ def search_students_by_marks_range(
     """Search students by marks range"""
     db = next(get_db())
     service = StudentService(db)
-    return service.search_students_by_marks_range(min_marks, max_marks)
+    students = service.search_students_by_marks_range(min_marks, max_marks)
+    return [serialize_student(student) for student in students]
 
 @student_mcp.tool()
 def get_student_marks(student_id: int) -> List[Dict]:
