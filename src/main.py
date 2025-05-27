@@ -1,5 +1,5 @@
 from db.database import engine, Base
-from routes.student_mcp import student_mcp
+from mcp_server.student_mcp import student_mcp
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
