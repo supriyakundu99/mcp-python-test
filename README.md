@@ -9,23 +9,13 @@ A FastAPI-based student management system with MCP (Model Context Protocol, also
 - [uv](https://github.com/astral-sh/uv) (for dependency management)
 - Cursor IDE
 
-## Quick Start with Docker
+## Quick Start
 
 1. Clone the repository:
 ```bash
 git clone https://github.com/supriyakundu99/mcp-python-test.git
 cd mcp-python-test
 ```
-
-2. Start the application using Docker Compose:
-```bash
-docker-compose up -d
-```
-
-This will:
-- Start a PostgreSQL database
-- Initialize the database schema
-- Start the FastAPI application on port 8000
 
 ## Cursor IDE Integration
 
@@ -66,12 +56,23 @@ This will:
 
 ### Local Setup
 
-1. Install dependencies and setup venv using uv and pyproject.toml:
+1. Install dependencies and set up a virtual environment using uv and pyproject.toml:
 ```bash
 uv sync
 ```
 
-2. Run the application:
+2. Start the PostgreSQL database using Docker Compose:
+```bash
+docker-compose up -d
+```
+
+3. Initialize the database schema and tables by running the provided SQL script:
+```bash
+docker exec -i <your_postgres_container_name> psql -U <your_db_user> -d <your_db_name> < init.sql
+```
+Replace `<your_postgres_container_name>`, `<your_db_user>`, and `<your_db_name>` with your actual container, user, and database names.
+
+4. Run the application:
 ```bash
 python src/main.py
 ```
