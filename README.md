@@ -13,8 +13,8 @@ A FastAPI-based student management system with MCP (Model Context Protocol, also
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/supriyakundu99/mcp-python-test.git
+cd mcp-python-test
 ```
 
 2. Start the application using Docker Compose:
@@ -66,21 +66,12 @@ This will:
 
 ### Local Setup
 
-1. Create a virtual environment:
-```bash
-python -m venv .venv
-# On Windows:
-.venv\Scripts\activate
-# On macOS/Linux:
-source .venv/bin/activate
-```
-
-2. Install dependencies using uv and pyproject.toml:
+1. Install dependencies and setup venv using uv and pyproject.toml:
 ```bash
 uv sync
 ```
 
-3. Run the application:
+2. Run the application:
 ```bash
 python src/main.py
 ```
