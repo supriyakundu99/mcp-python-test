@@ -24,7 +24,7 @@ cd mcp-python-test
 {
     "mcpServers": {
         "student-mcp-http-python": {
-            "url": "http://127.0.0.1:8000/mcp"
+            "url": "http://127.0.0.1:3000/mcp"
         }
     }
 }
@@ -76,12 +76,6 @@ Replace `<your_postgres_container_name>`, `<your_db_user>`, and `<your_db_name>`
 ```bash
 python src/main.py
 ```
-
-### API Documentation
-
-Once the application is running, you can access:
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
 
 ## Database Schema
 
