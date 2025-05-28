@@ -1,100 +1,109 @@
 # Student Management MCP Server
 
-This is a Model Context Protocol (MCP) server implementation for student management. It provides various tools for managing student records, marks, and performing various queries.
-
-## Features
-
-- Student CRUD operations
-- Student marks management
-- Statistical analysis
-- Search operations by various criteria
-- Marks-based filtering and analysis
+A FastAPI-based student management system with MCP (Model Context Protocol, also known as Method Call Protocol) integration for Cursor IDE.
 
 ## Prerequisites
 
-- Python 3.8+
-- PostgreSQL database
+- Docker and Docker Compose
+- Python 3.12 or higher (for local development)
+- [uv](https://github.com/astral-sh/uv) (for dependency management)
+- Cursor IDE
 
-## Setup
+## Quick Start with Docker
 
-1. Create a virtual environment and activate it:
+1. Clone the repository:
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+git clone <repository-url>
+cd <repository-name>
 ```
 
-2. Install dependencies:
+2. Start the application using Docker Compose:
 ```bash
-pip install -r requirements.txt
+docker-compose up -d
 ```
 
-3. Create a PostgreSQL database and schema:
-```sql
-CREATE DATABASE student_db;
-\c student_db
-CREATE SCHEMA student_schema;
+This will:
+- Start a PostgreSQL database
+- Initialize the database schema
+- Start the FastAPI application on port 8000
+
+## Cursor IDE Integration
+
+1. Create or update your `sample-mcp.json` file in your Cursor IDE workspace:
+```json
+{
+    "mcpServers": {
+        "student-mcp-http-python": {
+            "url": "http://127.0.0.1:8000/mcp"
+        }
+    }
+}
 ```
 
-4. Create a `.env` file in the root directory with your database configuration:
-```env
-DATABASE_URL=postgresql://username:password@localhost:5432/student_db
-```
+2. Restart Cursor IDE to load the MCP configuration.
 
-## Running the Server
-
-To start the server:
-
-```bash
-cd src
-python main.py
-```
-
-The server will start on `http://localhost:8000`.
+3. The Student Management System MCP tools will now be available in your Cursor IDE.
 
 ## Available MCP Tools
 
-1. Student Management:
-   - `getStudentStatisticsWithCount`: Get statistical information about students
-   - `createStudent`: Create a new student record
-   - `getStudent`: Get student details by ID
-   - `updateStudent`: Update student information
-   - `deleteStudent`: Delete a student record
+- `get_all_students`: Retrieve all student records
+- `get_student_statistics`: Get statistical information about students
+- `create_student`: Create a new student record
+- `get_student`: Get student details by ID
+- `update_student`: Update student information
+- `delete_student`: Delete a student record
+- `add_marks`: Add marks for a student
+- `update_marks`: Update marks for a student
+- `search_students_by_name`: Search students by name
+- `search_students_by_department`: Search students by department
+- `search_students_by_class`: Search students by class year
+- `search_students_by_marks_range`: Search students by marks range
+- `get_student_marks`: Get marks for a specific student
+- `get_students_above_marks`: Get students with marks above threshold
+- `get_students_below_marks`: Get students with marks below threshold
 
-2. Marks Management:
-   - `addMarks`: Add marks for a student
-   - `updateMarks`: Update existing marks
-   - `getStudentMarks`: Get marks for a specific student
+## Development
 
-3. Search Operations:
-   - `searchStudentsByName`: Search students by name
-   - `searchStudentsByDepartment`: Search students by department
-   - `searchStudentsByClass`: Search students by class year
-   - `searchStudentsByMarksRange`: Search students by marks range
-   - `getStudentsAboveMarks`: Get students with marks above threshold
-   - `getStudentsBelowMarks`: Get students with marks below threshold
+### Local Setup
 
-## API Endpoint
-
-The MCP server is accessible at:
+1. Create a virtual environment:
+```bash
+python -m venv .venv
+# On Windows:
+.venv\Scripts\activate
+# On macOS/Linux:
+source .venv/bin/activate
 ```
-POST http://localhost:8000/student-mcp
+
+2. Install dependencies using uv and pyproject.toml:
+```bash
+uv sync
 ```
+
+3. Run the application:
+```bash
+python src/main.py
+```
+
+### API Documentation
+
+Once the application is running, you can access:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
 ## Database Schema
 
-The system uses two main tables:
+### Students Table
+- id: Serial Primary Key
+- name: VARCHAR(100)
+- roll_number: VARCHAR(20) Unique
+- department: VARCHAR(50)
+- class_year: INTEGER
+- email: VARCHAR(100) Unique
 
-1. `students` table:
-   - id (Primary Key)
-   - name
-   - roll_number (Unique)
-   - department
-   - class_year
-   - email (Unique)
-
-2. `student_marks` table:
-   - id (Primary Key)
-   - student_id (Foreign Key)
-   - subject
-   - marks
-   - semester 
+### Student Marks Table
+- id: Serial Primary Key
+- student_id: INTEGER (Foreign Key)
+- subject: VARCHAR(100)
+- marks: FLOAT
+- semester: INTEGER
