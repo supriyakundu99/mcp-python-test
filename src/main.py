@@ -6,4 +6,5 @@ Base.metadata.create_all(bind=engine)
 
 # Run the FastMCP server using env-based configuration
 if __name__ == "__main__":
+    student_mcp.settings.host = "0.0.0.0"
     student_mcp.run("streamable-http")
