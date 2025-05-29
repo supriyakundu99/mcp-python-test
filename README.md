@@ -17,6 +17,24 @@ git clone https://github.com/supriyakundu99/mcp-python-test.git
 cd mcp-python-test
 ```
 
+2. Build and start the containers (app and PostgreSQL) using Docker Compose:
+```bash
+docker compose up --build -d
+```
+
+3. The FastAPI MCP server will be running at [http://localhost:3000](http://localhost:3000) and the MCP endpoint at [http://localhost:3000/mcp](http://localhost:3000/mcp).
+
+4. The PostgreSQL database will be available at `localhost:5432` (user: `postgres`, password: `postgres`, db: `students`).
+
+---
+
+**Note:**  
+- The database schema and tables are initialized automatically using `init.sql` on first run.
+- To stop the containers:  
+  ```bash
+  docker compose down
+  ```
+
 ## Cursor IDE Integration
 
 1. Create or update your `sample-mcp.json` file in your Cursor IDE workspace:
@@ -63,7 +81,7 @@ uv sync
 
 2. Start the PostgreSQL database using Docker Compose:
 ```bash
-docker-compose up -d
+docker compose up -d db
 ```
 
 3. Initialize the database schema and tables by running the provided SQL script:
