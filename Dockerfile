@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y gcc libpq-dev
 RUN pip install --upgrade pip && pip install uv
 
 # Copy dependency and environment files
-COPY pyproject.toml uv.lock .python-version .env ./
+COPY pyproject.toml uv.lock .python-version ./
+COPY .env.example .env
 
 # Copy the src directory
 COPY src ./src
